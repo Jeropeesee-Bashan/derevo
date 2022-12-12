@@ -1,0 +1,30 @@
+#+title: Derevo: my first attempt for Win32 API!
+#+author: Andrey Kulenko
+
+Just a small and harmless "virus" which changes your desktop wallpapers without
+your permission. All the code was made only for educational purposes.
+
+* Compilation
+To get program to work, you need MSVC or Mingw-w64.
+You compile the resources at first, then compile the program itself and link the
+files together.
+
+If you do want the program to change your wallpapers immediately,
+make sure you define VIRUS macro during compilation.
+
+** MSVC
+Make sure cl.exe and rc.exe are in your ~Path~. Prefer the Visual Studio
+Developer command line prompt.
+
+#+begin_src shell
+  rc /fo resources.res resources.rc
+  cl /c main.c main.obj #/DVIRUS
+  link main.obj resources.res kernel32.lib user32.lib shell32.lib ole32.lib uuid.lib /out:Derevo.exe
+#+end_src
+
+** Mingw-w64
+#+begin_src shell
+  windres -o resources.o resources.rc
+  gcc -c -o main.o main.c #-DVIRUS
+  ld -o Derevo.exe main.o resources.o -lkernel32 -luser32 -lshell32 -lole32 -luuid
+#+end_src
